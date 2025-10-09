@@ -49,5 +49,27 @@ class User {
 
     }
 
+
+    public function connect(string $login, string $password): bool{
+        $sql = "SELECT id, login,password ,email ,firstname ,lastname FROM utilisateurs WHERE login = ? LIMIT 1";
+        $stmt = $this->conn->prepare($sql);
+        if (!$stmt) throw new RuntimeException("Mysqli Erreur de préparation". $this->conn->error);
+        $stmt->bind_param('s', $login);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $row = $result->fetch_assoc();
+        $stmt->close();
+
+        if ($row && password_verify($password, $row['password'])) {
+            $this->id = (int)$row['id'];
+            $this->login = $row['login'];
+            $this->email= $row['email'];
+            $this->firstname = $row['firstname'];
+            $this->lastname = $row['lastname'];
+            return true;
+        }
+            
+    }
+
 }
 ?>
