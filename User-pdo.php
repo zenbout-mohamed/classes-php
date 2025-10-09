@@ -43,7 +43,7 @@ class UserPDO{
         }
     }
 
-    public fucntion connect(string $login, string $password): bool {
+    public function connect(string $login, string $password): bool {
         $sql = "SELECT id, login, password, email, firstname, lastname FROM utilisateurs WHERE login = :login LIMIT 1";
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute([':login' => $login]);
@@ -51,7 +51,7 @@ class UserPDO{
 
         if ($row && password_verify($password, $row['password'])) {
             $this->id = (int)$row['id'];
-            $this>login = $row['login'];
+            $this->login = $row['login'];
             $this->email = $row['email'];
             $this->firstname = $row['firstname'];
             $this->lastname = $row['lastname'];
@@ -82,8 +82,15 @@ class UserPDO{
     }
 
 
-    public function update(): {
+    public function update(string $login, ?string $password, ?string $email, ?string $firstname, ?string $lastname): bool{
+        if ($this->id === null) return false;
+
+        if ($password !== null && $password !== '') {
+            $hash = password_hash($password, PASSWORD_DEFAULT);
+        }
+            
         
+            
     }
 }
 
