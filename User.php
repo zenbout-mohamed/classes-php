@@ -109,6 +109,27 @@ class User {
             $stmt->bind_param('ssssi',$login ,$email ,$firstname ,$lastname, $this->id);
         }
 
+
+        $ok = $stmt->execute();
+        $stmt->close();
+        if($ok){
+            $this->login = $login;
+            $this->email = $email;
+            $this->firstname = $firstname;
+            $this->lastname = $lastname;
+            return true;
+        }
+        return false;
+    }
+
+
+    public function isConnected(): bool {
+        return $this->id !== null;
+    }
+
+
+    public function getAllInfos(): array {
+        
     }
 }
 ?>
