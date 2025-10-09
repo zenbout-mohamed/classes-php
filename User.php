@@ -94,5 +94,21 @@ class User {
         }
         return false;
     }
+
+    public function update(string $login, ?string $password, ?string $email, ?string $firstname, ?string $lastname): bool {
+        if($this->id === null) return false;
+
+        if ($password !== null && $password !== '') {
+            $hash = password_hash($password, PASSWORD_DEFAULT);
+            $sql = "UPDATE utilisateurs SET login = ?, password = ?, email = ?, firstname = ?, lastname = ? WHERE id = ?";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bind_param('sssssi', $login, $hash, $email, $firstname, $lastname, $this->id);
+        }else{
+            $sql = "UPDATE utilisateurs SET login = ?, email = ?, firstname = ?, lastname = ? WHERE id = ?";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bind_param('ssssi',$login ,$email ,$firstname ,$lastname, $this->id);
+        }
+
+    }
 }
 ?>
