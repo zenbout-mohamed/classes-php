@@ -1,5 +1,5 @@
 <?php
-require_once "User-pdo.php";
+require_once __DIR__ ."config.php";
 
 class UserPDO{
     private ?int $id = null;
@@ -21,6 +21,37 @@ class UserPDO{
         $hash = password_hash($password, PASSWORD_DEFAULT);
         $sql = "INSERT INTO utilisateurs (login, password, email, firstname, lastname) VALUES (:login , :password, :email, :firstname, :lastname)";
         $stmt = $this->pdo->prepare($sql);
+
+        try{
+            $stmt->execute([
+                ':login' => $login,
+                ':password' => $password,
+                ':email' => $email,
+                ':firstname' => $firstname,
+                ':lastname' => $lastname
+            ]);
+            $this->id = (int)$this->pdo->lastInsertId();
+            $this->login = $login;
+            $this->password = $password;
+            $this->firstname = $firstname;
+            $this->lastname = $lastname;
+
+            return $this->getAllInfos();
+
+        } catch (PDOException $e){
+            return null;
+        }
+    }
+
+    public fucntion connect(string $login, string $password): bool {
+        $sql = "SELECT id, login, password, email, firstname, lastname FROM utilisateurs WHERE login = :login LIMIT 1";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute([':login' => $login]);
+        $row = $stmt->fetch();
+
+        if ($row && password vérify) {
+            # code...
+        }
     }
 }
 
