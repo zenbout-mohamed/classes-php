@@ -7,5 +7,30 @@ class User {
     public ?string $email = null;
     public ?string $firstname = null;
     public ?string $lastname = null;
+
+
+    private ?mysqli $conn = null;
+
+
+    public function __construct(){
+        $this->conn = get_mysqli_connection();
+    }
+
+    public function __destruct(){
+        if ($this->conn instanceof mysqli) {
+            $this->conn->close();
+        }
+    }
+
+    public function register(string $login, string $password, string $email = null, string $firstname, string $lastname): ?array{
+        $hash = password_hash($password, PASSWORD_DEFAULT);
+
+        $sql ="INSERT INTO utilisateurs (login, password, email, firstname, lastname) VALUE (?,?,?,?,?)";
+        $stmt = $this->conn->prepare($sql);
+        if (!$stmt) {
+            throw new RuntimeException("Mysqli Prépare Erreur :" . $this->conn->error);
+        } 
+    }
+
 }
 ?>
