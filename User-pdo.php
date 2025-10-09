@@ -17,7 +17,10 @@ class UserPDO{
         $this->pdo = get_pdo_connection();
     }
 
-    public function register()
+    public function register(string $login, string $password, ?string $email = null, ?string $firstname = null, ?string $lastname = null): ?array{
+        $hash = password_hash($password, PASSWORD_DEFAULT);
+        $sql = "INSERT INTO utilisateurs (login, password, email, firstanme"
+    }
 }
 
 ?>
