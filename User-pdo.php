@@ -49,9 +49,24 @@ class UserPDO{
         $stmt->execute([':login' => $login]);
         $row = $stmt->fetch();
 
-        if ($row && password vérify) {
-            # code...
+        if ($row && password_verify($password, $row['password'])) {
+            $this->id = (int)$row['id'];
+            $this>login = $row['login'];
+            $this->email = $row['email'];
+            $this->firstname = $row['firstname'];
+            $this->lastname = $row['lastname'];
+            return true;
+
         }
+        return false;
+    }
+
+    public function dsiconnect(): void{
+        $this->id = null;
+        $this->login = null;
+        $this->email = null;
+        $this->firstname = null;
+        $this->lastname = null;
     }
 }
 
