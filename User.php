@@ -79,5 +79,20 @@ class User {
         $this->firstname = null;
         $this->lastname = null;
     }
+
+    public function delete(): bool{
+        if($this->id === null) return false;
+        $sql = "DELETE FROM utilisateurs WHERE id = ?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param('i', $this->id);
+        $ok = $stmt->execute();
+        $stmt->close();
+
+        if ($ok) {
+            $this->disconnect();
+            return true;
+        }
+        return false;
+    }
 }
 ?>
