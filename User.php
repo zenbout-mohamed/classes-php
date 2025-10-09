@@ -30,6 +30,23 @@ class User {
         if (!$stmt) {
             throw new RuntimeException("Mysqli Prépare Erreur :" . $this->conn->error);
         } 
+
+        $stmt->bind_param('sssss',$login, $hash , $email, $firstname, $lastname);
+        if (!$stmt->execute()) {
+           $stmt->close();
+           return null;
+        }
+        $this->id = $stmt->insert_id;
+        $stmt->close();
+
+        $this->login = $login;
+        $this->email = $email;
+        $this->firstname = $firstname;
+        $this->lastname = $lastname;
+
+
+        return $this->getAllInfos();
+
     }
 
 }
