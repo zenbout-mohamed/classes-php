@@ -68,6 +68,23 @@ class UserPDO{
         $this->firstname = null;
         $this->lastname = null;
     }
+
+    public function delete(): bool{
+        if ($this->id === null) return false; 
+        $sql = "DELETE FROM utilisateurs WHERE id = :id";
+        $stmt = $this->pdo->prepare($sql);
+        $ok = $stmt->execute([':id' => $this->$id]);
+        if ($ok) {
+            $this->disconnect();
+            return true;
+        }
+        return false;    
+    }
+
+
+    public function update(): {
+        
+    }
 }
 
 ?>
