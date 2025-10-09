@@ -68,8 +68,16 @@ class User {
             $this->lastname = $row['lastname'];
             return true;
         }
-            
+        return false;
     }
 
+
+    public function disconnect(): void{
+        $this->id = null;
+        $this->login = null;
+        $this->email = null;
+        $this->firstname = null;
+        $this->lastname = null;
+    }
 }
 ?>
