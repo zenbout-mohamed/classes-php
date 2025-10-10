@@ -25,7 +25,7 @@ class User {
     public function register(string $login, string $password, string $email = null, string $firstname, string $lastname): ?array{
         $hash = password_hash($password, PASSWORD_DEFAULT);
 
-        $sql ="INSERT INTO utilisateurs (login, password, email, firstname, lastname) VALUE (?,?,?,?,?)";
+        $sql ="INSERT INTO utilisateurs (login, password, email, firstname, lastname) VALUES (?,?,?,?,?)";
         $stmt = $this->conn->prepare($sql);
         if (!$stmt) {
             throw new RuntimeException("Mysqli Prépare Erreur :" . $this->conn->error);
@@ -36,7 +36,7 @@ class User {
            $stmt->close();
            return null;
         }
-        $this->id = $stmt->insert_id;
+        $this->id = $this->conn->insert_id;
         $stmt->close();
 
         $this->login = $login;
@@ -128,8 +128,38 @@ class User {
     }
 
 
-    public function getAllInfos(): array {
-        
+    public function getAllInfos(): ?array {
+        if ($this->id === null && $this->login === null) return null;
+        if($this->id !== null) {
+            $sql = "SELECT id, login, email, firstname, lastname FROM utilisateurs WHERE id = ?";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bind_param('i', $this->id);
+            $stmt->execute();
+            $res = $stmt->get_result();
+            $data = $res->fetch_assoc();
+            $stmt->close();
+            return $data;
+        }
+        return[
+            'login' => $this->login,
+            'email' => $this->email,
+            'firstname' => $this->firstname,
+            'lastname' => $this->lastname
+        ];
+    }
+
+
+    public function getLogin(): ?string {
+        return $this->login;
+    }
+    public function getEmail(): ?string {
+        return $this->email;
+    }
+    public function getFirstname(): ?string {
+        return $this->firstname;
+    }
+    public function getLastname(): ?string {
+        return $this->lastname;
     }
 }
 ?>

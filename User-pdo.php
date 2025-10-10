@@ -60,7 +60,7 @@ class UserPDO{
         return false;
     }
 
-    public function dsiconnect(): void{
+    public function disconnect(): void{
         $this->id = null;
         $this->login = null;
         $this->email = null;
@@ -72,7 +72,7 @@ class UserPDO{
         if ($this->id === null) return false; 
         $sql = "DELETE FROM utilisateurs WHERE id = :id";
         $stmt = $this->pdo->prepare($sql);
-        $ok = $stmt->execute([':id' => $this->$id]);
+        $ok = $stmt->execute([':id' => $this->id]);
         if ($ok) {
             $this->disconnect();
             return true;

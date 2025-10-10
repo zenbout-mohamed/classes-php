@@ -2,13 +2,13 @@ CREATE DATABASE IF NOT EXISTS classes;
 
 USE classes;
 
--- CREATE TABLE IF NOT EXISTS utilisateurs(
---     id INT AUTO_INCREMENT PRIMARY KEY,
---     login VARCHAR(255) NOT NULL UNIQUE,
---     password VARCHAR(255) NOT NULL,
---     email VARCHAR(255) NOT NULL,
---     firstname VARCHAR(255)NOT NULL,
---     lastname VARCHAR(255)
+CREATE TABLE IF NOT EXISTS utilisateurs(
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    login VARCHAR(255) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    firstname VARCHAR(255)NOT NULL,
+    lastname VARCHAR(255)
 
--- );
+);
 
