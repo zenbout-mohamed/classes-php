@@ -22,32 +22,32 @@ class User {
         }
     }
 
-    public function register(string $login, string $password, string $email = null, string $firstname, string $lastname): ?array{
-        $hash = password_hash($password, PASSWORD_DEFAULT);
+    public function register(string $login, string $password, string $firstname, string $lastname, ?string $email = null): ?array{
+    $hash = password_hash($password, PASSWORD_DEFAULT);
 
-        $sql ="INSERT INTO utilisateurs (login, password, email, firstname, lastname) VALUES (?,?,?,?,?)";
-        $stmt = $this->conn->prepare($sql);
-        if (!$stmt) {
-            throw new RuntimeException("Mysqli Prépare Erreur :" . $this->conn->error);
-        } 
+    $sql ="INSERT INTO utilisateurs (login, password, email, firstname, lastname) VALUES (?,?,?,?,?)";
+    $stmt = $this->conn->prepare($sql);
+    if (!$stmt) {
+        throw new RuntimeException("Mysqli Prépare Erreur :" . $this->conn->error);
+    } 
+    
+    $stmt->bind_param('sssss', $login, $hash, $email, $firstname, $lastname);
 
-        $stmt->bind_param('sssss',$login, $hash , $email, $firstname, $lastname);
-        if (!$stmt->execute()) {
-           $stmt->close();
-           return null;
-        }
-        $this->id = $this->conn->insert_id;
-        $stmt->close();
-
-        $this->login = $login;
-        $this->email = $email;
-        $this->firstname = $firstname;
-        $this->lastname = $lastname;
-
-
-        return $this->getAllInfos();
-
+    if (!$stmt->execute()) {
+       $stmt->close();
+       return null;
     }
+    $this->id = $this->conn->insert_id;
+    $stmt->close();
+
+    $this->login = $login;
+    $this->email = $email;
+    $this->firstname = $firstname;
+    $this->lastname = $lastname;
+
+    return $this->getAllInfos();
+}
+
 
 
     public function connect(string $login, string $password): bool{
