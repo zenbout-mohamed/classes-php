@@ -1,29 +1,21 @@
 <?php
-session_start();
+require_once __DIR__ . '/includes/header.php';
+
+if (empty($_SESSION['user'])) {
+    header("Location: login.php");
+    exit;
+}
+
+$user = $_SESSION['user'];
 ?>
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <title>Accueil</title>
-    
-    <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-gray-100 flex items-center justify-center h-screen">
 
-    <div class="text-center">
-        <h1 class="text-4xl font-bold mb-6 text-gray-800">Bienvenue sur le site</h1>
+<div class="bg-white shadow-md rounded p-6 text-center max-w-md mx-auto mt-10">
+    <h2 class="text-3xl font-bold text-gray-800 mb-4">Bienvenue, <?= htmlspecialchars($user['firstname']) ?> !</h2>
+    <p class="text-gray-600 mb-6">
+        Vous êtes connecté avec le login <strong><?= htmlspecialchars($user['login']) ?></strong>.
+    </p>
+    <a href="logout.php" class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition">Déconnexion</a>
+</div>
 
-        <?php if (!isset($_SESSION['user'])): ?>
-            <div class="space-x-4">
-                <a href="/views/login.php" class="px-6 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Connexion</a>
-                <a href="/views/register.php" class="px-6 py-2 bg-green-600 text-white rounded hover:bg-green-700">Inscription</a>
-            </div>
-        <?php else: ?>
-            <p class="text-lg mb-4">Bonjour, <span class="font-semibold"><?= htmlspecialchars($_SESSION['user']['login']) ?></span></p>
-            <a href="/views/dashboard.php" class="px-6 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700">Accéder au tableau de bord</a>
-        <?php endif; ?>
-    </div>
-
-</body>
-</html>
+<?php
+require_once __DIR__ . '/includes/footer.php';
