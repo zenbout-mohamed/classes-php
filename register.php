@@ -17,7 +17,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $result = $user->register($login, $password, $email, $firstname, $lastname);
         if ($result) {
             $_SESSION['user'] = $result;
-            header("Location: index.php");
+            $success = "Inscription réussie ! Vous pouvez maintenant vous connecter.";
+            header("Location: login.php");
             exit;
         } else {
             $error = 'Erreur lors de l’inscription, login peut-être déjà utilisé.';

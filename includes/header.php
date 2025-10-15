@@ -7,7 +7,7 @@ if (session_status() === PHP_SESSION_NONE) {
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Mon Projet</title>
+    <title>Classes-php</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-100">
@@ -17,10 +17,10 @@ if (session_status() === PHP_SESSION_NONE) {
         <nav class="space-x-4">
             <?php if (!empty($_SESSION['user'])): ?>
                 <span>Bienvenue, <?= htmlspecialchars($_SESSION['user']['firstname']) ?></span>
-                <a href="/logout.php" class="hover:underline">Déconnexion</a>
+                <a href="logout.php" class="hover:underline">Déconnexion</a>
             <?php else: ?>
-                <a href="/login.php" class="hover:underline">Connexion</a>
-                <a href="/register.php" class="hover:underline">Inscription</a>
+                <a href="login.php" class="hover:underline">Connexion</a>
+                <a href="register.php" class="hover:underline">Inscription</a>
             <?php endif; ?>
         </nav>
     </div>
